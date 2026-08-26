@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.cache/
+.config/
+.docker/
+.gemini/
+.local/
+.npm/
+.rustup/
+.vscode/
+.bash_history
+.bash_logout
+.profile
+*.json
+service_account.json
+.streamlit/secrets.toml
