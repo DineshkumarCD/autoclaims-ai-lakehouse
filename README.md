@@ -1606,3 +1606,12 @@ The major technologies work together as a unified cloud-native architecture:
 
 > **Technology Philosophy:**  
 > **Build → Containerize → Secure → Deploy → Ingest → Analyze → Govern**
+
+
+## 🌐 Live Application Demo
+
+🔗 **Live Deployment:** [https://autoclaims-app-951447653027.us-central1.run.app/](https://autoclaims-app-951447653027.us-central1.run.app/)
+
+> **HQ Adjudication Access Credentials:**
+> * **Username:** `admin_hq`
+> * **Password:** `hq2026`
