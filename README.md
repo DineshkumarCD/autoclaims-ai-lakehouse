@@ -923,4 +923,111 @@ Both workflows operate through the same Streamlit application while exposing dif
     width="100%"
   >
 </p>
+### 4️⃣ Module 4: Real-Time Financial & Risk Analytics
 
+> **Focus:** 📊 Real-Time Insurance Portfolio Monitoring
+> **Primary Metrics:** 💰 Incurred Loss Ratio & 📍 Branch Risk Exposure
+
+The **Real-Time Financial & Risk Analytics** module provides centralized visibility into insurance portfolio performance. It enables headquarters users to monitor claim payouts against written premiums and identify branches with elevated loss exposure.
+
+---
+
+## 📈 1. Loss Ratio Gauge
+
+The platform computes the **Incurred Claims Ratio (Loss Ratio)** in real time by comparing total approved claim payouts against total written gross premium.
+
+### 🧮 Formula
+
+$$
+\text{Loss Ratio} =
+\left(
+\frac{\text{Total Approved Claim Payouts}}
+{\text{Total Written Gross Premium}}
+\right)
+\times 100
+$$
+
+### 💡 Interpretation
+
+The loss ratio indicates how much of the written premium is being consumed by approved claim payouts.
+
+```text
+💵 Total Written Gross Premium
+              │
+              ▼
+       📊 Portfolio Base
+              │
+              │ compared with
+              ▼
+💰 Total Approved Claim Payouts
+              │
+              ▼
+        📈 Loss Ratio %
+```
+
+A higher loss ratio indicates **greater claims cost relative to premium**, which can signal increased portfolio risk.
+
+---
+
+## 📍 2. Branch Risk Exposure
+
+The module provides branch-level visualization of claim losses across regional operations.
+
+```text
+🏢 Regional Branches
+        │
+        ├── 📍 Chennai
+        ├── 📍 Coimbatore
+        └── 📍 Madurai
+                │
+                ▼
+        📊 Loss Distribution
+                │
+                ▼
+        🔎 Risk Identification
+```
+
+Branch-level analytics help identify:
+
+* 🚨 **Localized underwriting risks**
+* 📈 **Abnormal claim frequencies**
+* 💰 **High-loss branches**
+* 📊 **Uneven loss distribution**
+* 🔍 **Potential portfolio anomalies**
+
+---
+
+## 🔄 Real-Time Analytics Flow
+
+```text
+☁️ BigQuery
+    │
+    ├── 📋 Written Premium
+    │
+    └── 📑 Approved Claims
+             │
+             ▼
+      🧮 Loss Ratio Engine
+             │
+       ┌─────┴─────┐
+       ▼           ▼
+   📈 Overall    📍 Branch
+   Loss Ratio    Exposure
+       │           │
+       └─────┬─────┘
+             ▼
+      📊 Plotly Dashboard
+             │
+             ▼
+       🏛️ HQ Decision Making
+```
+
+> **Module 4 transforms raw policy and claim transactions into real-time financial intelligence, allowing HQ teams to monitor portfolio health and identify emerging regional risks.**
+
+<p align="center">
+  <img 
+    src="images/Module_4.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
