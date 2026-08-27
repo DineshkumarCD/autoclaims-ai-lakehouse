@@ -241,61 +241,13 @@ Manual Analytics   → 📊 Automated Insights
 
 ## 🔄 Architecture Overview
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ 🏢 1. OPERATIONAL INGESTION TIER                                   │
-│                                                                     │
-│  🏪 Sub-Branch Operations       🏛️ Main HQ Operations               │
-│  • Policy Underwriting          • Claim Adjudication               │
-│  • IDV Calculation              • Repair Estimate Review            │
-│  • Claim Registration           • Depreciation & Salvage Adjustment │
-│  • RC Smart Card OCR            • Settlement Approval / Rejection   │
-│                                                                     │
-│                  🔐 HTTPS / TLS TERMINATION                         │
-└───────────────────────────────┬─────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│ ⚙️ 2. COMPUTE & OCR PROCESSING LAYER                               │
-│                                                                     │
-│                    ☁️ Google Cloud Run                              │
-│                  Serverless Docker Container                        │
-│                                                                     │
-│        🖥️ Streamlit              📊 Plotly Analytics                │
-│             │                         │                             │
-│             └──────────┬──────────────┘                             │
-│                        ▼                                            │
-│              🧠 Google Cloud Vision API                             │
-│                        │                                            │
-│                  ⚡ Volatile RAM                                    │
-│                  io.BytesIO                                          │
-│                        │                                            │
-│                  🔤 OCR Extraction                                  │
-└────────────────────────┬────────────────────────────────────────────┘
-                         │
-                  🔐 IAM Authentication
-                         │
-                         ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│ ☁️ 3. DATA LAKEHOUSE STORAGE LAYER                                 │
-│                                                                     │
-│                 Google Cloud BigQuery                               │
-│                 `autoclaims_lakehouse`                              │
-│                                                                     │
-│       ┌──────────────────────┐    ┌──────────────────────┐          │
-│       │ 📋 policies_master   │    │ 📑 claims_ledger     │          │
-│       │                      │    │                      │          │
-│       │ • policy_id          │    │ • claim_id           │          │
-│       │ • customer details   │    │ • policy_id (FK)     │          │
-│       │ • vehicle details    │    │ • branch_id          │          │
-│       │ • IDV / premium      │    │ • repair estimates   │          │
-│       │ • policy lifecycle   │    │ • approved settlement│          │
-│       └──────────┬───────────┘    └──────────┬───────────┘          │
-│                  └───────────🔗───────────────┘                      │
-│                         `policy_id`                                  │
-│                                                                     │
-│              📊 Real-Time Loss Ratio Analytics                       │
-└─────────────────────────────────────────────────────────────────────┘
+<p align="center">
+  <img 
+    src="images/operational_ingestion_tier.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
 ```
 
 ---
