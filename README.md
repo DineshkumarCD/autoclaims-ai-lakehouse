@@ -77,6 +77,14 @@ The platform connects **regional insurance sub-branches** with **corporate headq
 
 AutoClaims AI establishes a **single, automated data foundation** for motor insurance operations while reducing manual intervention, eliminating unnecessary disk-based processing, and enabling near-real-time analytical decision-making.
 
+
+## 🏗️ Overall Architecture
+
+<p align="center">
+  <img src="images/overall-architecture.png" alt="AutoClaims AI Overall Architecture" width="100%">
+</p>
+
+
 # 🎯 Business Problem & Solution Scope
 
 ## 🚧 The Operational Bottlenecks
@@ -226,9 +234,3 @@ Manual Analytics   → 📊 Automated Insights
 > **AutoClaims AI converts operational complexity into a scalable, secure, and analytics-ready cloud architecture.**
 
 
-
-## 🏗️ Overall Architecture
-
-<p align="center">
-  <img src="images/overall-architecture.png" alt="AutoClaims AI Overall Architecture" width="100%">
-</p>
