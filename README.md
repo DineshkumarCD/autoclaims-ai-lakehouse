@@ -248,7 +248,7 @@ Manual Analytics   → 📊 Automated Insights
     width="100%"
   >
 </p>
-```
+
 
 ---
 
