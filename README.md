@@ -679,6 +679,115 @@ Deterministic data generation provides a **reproducible development environment*
   >
 </p>
 
+### 2️⃣ Module 2: In-Memory Document Intelligence
+
+> **Technology:** 🧠 Google Cloud Vision API
+> **Core Principle:** ⚡ Zero-Disk Document Processing
+
+This module provides **zero-disk document intelligence** for vehicle Registration Certificate (RC) processing. Uploaded RC card images are read directly from memory, processed through the **Google Cloud Vision API**, and converted into structured vehicle information using a **Regex Extraction Engine**.
+
+---
+
+## ⚡ 1. Zero-Disk Ingestion
+
+The application uses Python's `io.BytesIO` memory buffer to hold uploaded RC image bytes temporarily in **volatile memory**.
+
+The image is streamed directly to the Google Cloud Vision API without creating temporary files on the local filesystem.
+
+```text
+📄 RC Card Image
+       │
+       ▼
+⚡ `io.BytesIO`
+       │
+       │ In-Memory Bytes
+       ▼
+🧠 Google Cloud Vision API
+       │
+       ▼
+🔤 OCR Text
+```
+
+### 🛡️ Key Advantage
+
+```text
+Upload → RAM → OCR → Structured Data
+```
+
+No temporary document file is intentionally created or persisted on disk during the ingestion workflow.
+
+---
+
+## 🔎 2. Regex Extraction Engine
+
+The complete text returned by the Vision API is passed through a **regular-expression-based parsing layer**.
+
+The extraction engine identifies and validates key vehicle attributes automatically.
+
+### 🚗 Extracted Information
+
+| Field                            | Processing                                        |
+| -------------------------------- | ------------------------------------------------- |
+| 🚘 Vehicle Registration Number   | Extracted with standardized state-code validation |
+| ⚙️ Engine Number                 | Extracted from OCR text                           |
+| 🔩 Chassis Identification Number | Extracted from OCR text                           |
+| 🏭 Vehicle Make                  | Automatically identified                          |
+| 🚙 Vehicle Model                 | Automatically identified                          |
+| 📅 Year of Manufacture           | Extracted from document text                      |
+
+---
+
+## 🔄 Document Intelligence Pipeline
+
+```text
+📄 RC Smart Card
+       │
+       ▼
+⚡ In-Memory Buffer
+   `io.BytesIO`
+       │
+       ▼
+☁️ Google Cloud Vision API
+       │
+       ▼
+🔤 Full-Text OCR Annotation
+       │
+       ▼
+🔎 Regex Extraction Engine
+       │
+       ▼
+✅ Validation & Standardization
+       │
+       ▼
+📋 Structured Vehicle Data
+       │
+       ▼
+☁️ AutoClaims AI Data Pipeline
+```
+
+---
+
+## 🏆 Why This Module Matters
+
+The in-memory OCR architecture provides several engineering advantages:
+
+* 💾 **Zero persistent document storage**
+* ⚡ **Reduced disk I/O and processing latency**
+* 🔐 **Lower exposure of sensitive vehicle documents**
+* 📈 **Serverless scalability**
+* 🤖 **Automated vehicle-data extraction**
+* ✅ **Standardized and validated output**
+
+> **Core Principle:**
+> **Capture → Process in Memory → OCR → Parse → Validate → Ingest**
+
+<p align="center">
+  <img 
+    src="images/Module_2.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
 
 
 
