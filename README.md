@@ -1031,3 +1031,310 @@ Branch-level analytics help identify:
     width="100%"
   >
 </p>
+
+
+# ☁️ Module 5: Serverless Containerization & Cloud Deployment
+
+> **Technologies:** 🐳 Docker • ☁️ Google Cloud Run  
+> **Focus:** 🔐 Secure Containerization • 📈 Serverless Scalability • 💰 Cost Optimization
+
+The **Serverless Containerization & Cloud Deployment** module packages the AutoClaims AI application into a lightweight Docker container and deploys it on **Google Cloud Run** as a fully managed serverless workload.
+
+---
+
+## 🐳 1. Container Packaging
+
+The application is packaged using a **Debian-slim Docker image**, providing a lightweight runtime environment for the application and its dependencies.
+
+The container is configured with **non-root execution parameters**, reducing unnecessary privileges during application execution.
+
+### 🔄 Container Build Flow
+
+```text
+👨‍💻 Application Source Code
+          │
+          ▼
+🐳 Dockerfile
+          │
+          ▼
+🐧 Debian-Slim Base Image
+          │
+          ▼
+📦 Application + Dependencies
+          │
+          ▼
+🔐 Non-Root Execution
+          │
+          ▼
+📦 Container Image
+```
+
+### 🔐 Security Benefits
+
+- 🛡️ **Reduced Container Privileges**  
+  The application does not require unnecessary root-level privileges.
+
+- 🔒 **Non-Root Application Execution**  
+  The container is configured to run the application using a non-root execution context.
+
+- 📦 **Lightweight Base Image**  
+  Debian-slim reduces unnecessary operating-system components and keeps the container lightweight.
+
+- 🧩 **Isolated Application Runtime**  
+  Application dependencies are packaged within the container, providing a consistent runtime environment.
+
+- ⚙️ **Consistent Deployment Environment**  
+  The same container image can be used across deployment environments.
+
+---
+
+## ☁️ 2. Cloud Run Hosting
+
+The containerized application is deployed on **Google Cloud Run**, a fully managed serverless compute platform.
+
+Cloud Run manages the underlying infrastructure and automatically adjusts the number of running container instances according to incoming application traffic.
+
+### ⚡ Cloud Run Capabilities
+
+| Capability | Description |
+|---|---|
+| 🔐 **Automatic TLS** | Provides managed TLS certification for secure HTTPS traffic |
+| 📈 **Horizontal Autoscaling** | Automatically adjusts container instances based on request load and configured concurrency |
+| 💤 **Scale-to-Zero** | Allows the service to scale down to zero instances when idle |
+| ☁️ **Fully Managed Compute** | Eliminates the need for traditional server provisioning and infrastructure management |
+| 🐳 **Container Native** | Runs the packaged Docker application directly |
+
+---
+
+## 🔄 Deployment Architecture
+
+```text
+👨‍💻 Application Code
+        │
+        ▼
+🐳 Docker Build
+        │
+        ▼
+📦 Debian-Slim Container
+        │
+        ▼
+🔐 Non-Root Runtime
+        │
+        ▼
+☁️ Google Cloud Run
+        │
+        ├── 🔒 Automatic TLS
+        │
+        ├── 📈 Concurrency-Based Autoscaling
+        │
+        └── 💤 Scale-to-Zero
+        │
+        ▼
+🚀 AutoClaims AI
+```
+
+---
+
+## 📈 3. Concurrency-Based Horizontal Autoscaling
+
+Cloud Run can dynamically adjust the number of container instances according to incoming request traffic and configured concurrency.
+
+When application demand increases, additional container instances can be started. When demand decreases, unnecessary instances can be removed.
+
+```text
+             📥 Incoming Requests
+                     │
+                     ▼
+              ☁️ Google Cloud Run
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+          ▼                     ▼
+     📉 Low Traffic        📈 High Traffic
+          │                     │
+          ▼                     ▼
+   Fewer Instances       More Instances
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+              🖥️ Application
+```
+
+### 🎯 Engineering Benefit
+
+- 📈 Handles increasing application traffic automatically.
+- 🔄 Removes the need for manual server provisioning.
+- ⚡ Adapts compute capacity to workload demand.
+- 🏗️ Supports scalable application execution.
+
+---
+
+## 💰 4. Scale-to-Zero Idle Cost Optimization
+
+Cloud Run can scale the application down to **zero running instances** when there is no active workload.
+
+This is particularly useful for applications that experience periods of low or no traffic.
+
+```text
+📈 Active Traffic
+      │
+      ▼
+🖥️ Running Container Instances
+      │
+      │ No Active Traffic
+      ▼
+💤 Zero Running Instances
+```
+
+### 💡 Cost Optimization Principle
+
+```text
+Active Workload
+      ↓
+Compute Resources
+      ↓
+Application Processing
+
+No Workload
+      ↓
+Scale to Zero
+      ↓
+Reduced Idle Compute Consumption
+```
+
+---
+
+## 🔐 5. Secure Deployment Flow
+
+The production request path can be represented as:
+
+```text
+🌐 User Request
+      │
+      ▼
+🔒 HTTPS / TLS
+      │
+      ▼
+☁️ Google Cloud Run
+      │
+      ▼
+🐳 Non-Root Container
+      │
+      ▼
+🖥️ AutoClaims AI
+```
+
+### 🛡️ Security Characteristics
+
+- 🔒 **Encrypted HTTPS/TLS communication**
+- 🔐 **Non-root container execution**
+- 🧩 **Isolated container runtime**
+- ☁️ **Managed cloud infrastructure**
+- 🚫 **Reduced dependency on manually managed servers**
+
+---
+
+## 🏗️ 6. AutoClaims AI Deployment Architecture
+
+The deployment layer integrates the containerized application with the other AutoClaims AI services.
+
+```text
+                    🌐 Users
+                       │
+                       ▼
+                  🔒 HTTPS / TLS
+                       │
+                       ▼
+              ☁️ Google Cloud Run
+                       │
+                🐳 Docker Container
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+          ▼            ▼            ▼
+     🖥️ Streamlit   🧠 Vision API  📊 Plotly
+          │
+          │
+          ▼
+   🔐 IAM Authentication
+          │
+          ▼
+     ☁️ Google BigQuery
+```
+
+---
+
+## 🏆 7. Key Engineering Benefits
+
+| Benefit | Engineering Value |
+|---|---|
+| 🐳 **Containerization** | Packages application code and dependencies into a reproducible runtime |
+| 🔐 **Non-Root Execution** | Reduces unnecessary container privileges |
+| ☁️ **Serverless Deployment** | Removes the need to manage traditional servers |
+| 📈 **Automatic Scaling** | Dynamically adapts compute capacity to workload |
+| 🔒 **Automatic TLS** | Provides secure HTTPS communication |
+| 💤 **Scale-to-Zero** | Reduces idle compute consumption |
+| ⚡ **Operational Efficiency** | Infrastructure automatically responds to changing traffic |
+
+---
+
+## 🔑 8. Key Terms
+
+| Term | Meaning |
+|---|---|
+| **Docker** | Platform used to package applications into containers |
+| **Debian-Slim** | Lightweight Debian-based container image |
+| **Container Image** | Packaged application environment containing code and dependencies |
+| **Non-Root Execution** | Running an application without root-level privileges |
+| **Cloud Run** | Fully managed serverless container execution platform |
+| **Concurrency** | Number of requests that can be handled by a container instance |
+| **Horizontal Autoscaling** | Increasing or decreasing the number of container instances based on workload |
+| **Scale-to-Zero** | Scaling running instances down to zero during periods without active workload |
+| **TLS** | Protocol used to encrypt network communication |
+| **Serverless** | Cloud execution model where infrastructure management is handled by the cloud provider |
+
+---
+
+## 📦 9. Revision Box
+
+```text
+🐳 Docker
+     ↓
+🐧 Debian-Slim Image
+     ↓
+🔐 Non-Root Execution
+     ↓
+📦 Container Image
+     ↓
+☁️ Google Cloud Run
+     ↓
+🔒 Automatic TLS
+     ↓
+📈 Concurrency-Based Autoscaling
+     ↓
+💤 Scale-to-Zero
+     ↓
+🚀 AutoClaims AI
+```
+
+---
+
+## 📝 10. Summary
+
+The **Serverless Containerization & Cloud Deployment** module provides AutoClaims AI with a **secure, lightweight, scalable, and cost-efficient production runtime**.
+
+The complete deployment lifecycle can be summarized as:
+
+> **Containerize → Secure → Deploy → Automatically Scale → Scale to Zero**
+
+This architecture allows AutoClaims AI to run as a **cloud-native serverless application** without requiring traditional server provisioning or manual infrastructure scaling.
+
+
+<p align="center">
+  <img 
+    src="images/Module_5.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
+
