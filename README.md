@@ -1338,3 +1338,271 @@ This architecture allows AutoClaims AI to run as a **cloud-native serverless app
   >
 </p>
 
+## 🧰 Technology Stack
+
+The **AutoClaims AI** platform is built using a cloud-native technology stack designed to support scalable data processing, intelligent document extraction, real-time analytics, secure application execution, and version-controlled deployment.
+
+---
+
+### 🏗️ Technology Stack Overview
+
+| Layer | Component | Enterprise Purpose |
+|---|---|---|
+| 🗄️ **Data Lakehouse** | **Google Cloud BigQuery** | Columnar analytical warehouse and transactional claims ledger |
+| 🧠 **Machine Vision** | **Google Cloud Vision API** | Document text annotation and OCR parameter extraction |
+| 🖥️ **Web Runtime** | **Streamlit & Plotly Express** | Branch routing, claims UI, and financial dashboards |
+| 🐳 **Containerization** | **Docker** | Immutable application runtime packaging |
+| ☁️ **Cloud Compute** | **Google Cloud Run** | Serverless, auto-scaling managed container hosting |
+| 🔐 **Access & Security** | **Google Cloud IAM** | Role-based service-account credential management |
+| 🔄 **Source Control** | **Git & GitHub** | Version management and deployment tracking |
+
+---
+
+## 🗄️ 1. Data Lakehouse — Google Cloud BigQuery
+
+**Google Cloud BigQuery** acts as the centralized data and analytics layer for AutoClaims AI.
+
+### Enterprise Purpose
+
+- 📊 Columnar analytical data processing
+- 📋 Centralized policy storage
+- 📑 Transactional claims ledger
+- 🔎 Real-time analytical querying
+- 📈 Loss-ratio and risk analytics
+
+**Core Dataset:**
+
+```text
+autoclaims_lakehouse
+```
+
+**Primary Entities:**
+
+```text
+📋 policies_master
+        │
+        │ policy_id
+        ▼
+📑 claims_ledger
+```
+
+---
+
+## 🧠 2. Machine Vision — Google Cloud Vision API
+
+**Google Cloud Vision API** provides the OCR capability for automated RC document processing.
+
+### Enterprise Purpose
+
+- 📄 Document text annotation
+- 🔤 OCR extraction
+- 🚗 Vehicle registration extraction
+- ⚙️ Engine number extraction
+- 🔩 Chassis number extraction
+- 🚙 Vehicle attribute identification
+
+The OCR pipeline processes RC documents through an **in-memory workflow** using `io.BytesIO`.
+
+```text
+📄 RC Document
+      │
+      ▼
+⚡ In-Memory Buffer
+      │
+      ▼
+🧠 Google Cloud Vision API
+      │
+      ▼
+🔤 OCR Text
+      │
+      ▼
+🔎 Structured Vehicle Data
+```
+
+---
+
+## 🖥️ 3. Web Runtime — Streamlit & Plotly Express
+
+**Streamlit** provides the application interface for branch operations and HQ workflows, while **Plotly Express** provides interactive financial and risk visualizations.
+
+### Enterprise Purpose
+
+- 🏪 Branch workflow routing
+- 📝 Policy and claim interfaces
+- 🧠 OCR workflow integration
+- 🏛️ HQ adjudication workspace
+- 📊 Financial dashboards
+- 📈 Loss-ratio visualization
+- 📍 Branch risk analysis
+
+```text
+👥 Users
+   │
+   ▼
+🖥️ Streamlit
+   │
+   ├── 🏪 Sub-Branch Operations
+   │
+   └── 🏛️ HQ Adjudication
+             │
+             ▼
+       📊 Plotly Express
+             │
+             ▼
+       📈 Analytics Dashboard
+```
+
+---
+
+## 🐳 4. Containerization — Docker
+
+**Docker** packages the AutoClaims AI application and its dependencies into an immutable container runtime.
+
+### Enterprise Purpose
+
+- 📦 Application packaging
+- 🔄 Reproducible deployments
+- 🧩 Dependency isolation
+- 🔐 Controlled runtime environment
+- 🚀 Portable application execution
+
+```text
+👨‍💻 Application Code
+        │
+        ▼
+🐳 Dockerfile
+        │
+        ▼
+📦 Container Image
+        │
+        ▼
+☁️ Cloud Run
+```
+
+---
+
+## ☁️ 5. Cloud Compute — Google Cloud Run
+
+**Google Cloud Run** provides the serverless compute environment for the containerized application.
+
+### Enterprise Purpose
+
+- ☁️ Fully managed container hosting
+- 📈 Automatic horizontal autoscaling
+- 🔐 Managed HTTPS/TLS
+- 💤 Scale-to-zero capability
+- 💰 Idle compute cost optimization
+
+```text
+📦 Docker Container
+        │
+        ▼
+☁️ Google Cloud Run
+        │
+   ┌────┴────┐
+   ▼         ▼
+📈 Auto    💤 Scale
+Scaling    to Zero
+```
+
+---
+
+## 🔐 6. Access & Security — Google Cloud IAM
+
+**Google Cloud IAM (Identity and Access Management)** provides identity and access control for cloud resources and service-to-service authentication.
+
+### Enterprise Purpose
+
+- 🔐 Service-account authentication
+- 👥 Role-based access control
+- 🛡️ Least-privilege permissions
+- ☁️ Secure Cloud Run → BigQuery access
+- 🚫 Avoidance of hardcoded cloud credentials
+
+```text
+☁️ Cloud Run
+      │
+      ▼
+🔐 Google Cloud IAM
+      │
+      ▼
+☁️ BigQuery
+```
+
+---
+
+## 🔄 7. Source Control — Git & GitHub
+
+**Git and GitHub** provide source-code version management and deployment tracking throughout the project lifecycle.
+
+### Enterprise Purpose
+
+- 📝 Version control
+- 🔄 Change tracking
+- 🌿 Branch management
+- 🕐 Commit history
+- 🚀 Deployment traceability
+- 📚 Project documentation
+
+```text
+👨‍💻 Developer
+      │
+      ▼
+🔄 Git
+      │
+      ▼
+🐙 GitHub
+      │
+      ▼
+📦 Versioned Source Code
+```
+
+---
+
+## 🔗 Complete Technology Integration
+
+The major technologies work together as a unified cloud-native architecture:
+
+```text
+                    👥 Users
+                       │
+                       ▼
+              🖥️ Streamlit + Plotly
+                       │
+                       ▼
+                 ☁️ Cloud Run
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+          ▼            ▼            ▼
+       🧠 Vision     🔐 IAM      📊 Analytics
+          │            │
+          │            ▼
+          │       ☁️ BigQuery
+          │            │
+          └────────────┤
+                       ▼
+              🗄️ AutoClaims Lakehouse
+                       │
+                ┌──────┴──────┐
+                ▼             ▼
+        📋 policies_master  📑 claims_ledger
+```
+
+---
+
+## 🏆 Technology Stack Summary
+
+| Technology | Primary Role |
+|---|---|
+| ☁️ **Google Cloud BigQuery** | Data lakehouse and analytical storage |
+| 🧠 **Google Cloud Vision API** | OCR and document intelligence |
+| 🖥️ **Streamlit** | Application and workflow interface |
+| 📊 **Plotly Express** | Financial and risk visualization |
+| 🐳 **Docker** | Containerization and runtime packaging |
+| ☁️ **Google Cloud Run** | Serverless application hosting |
+| 🔐 **Google Cloud IAM** | Identity and access management |
+| 🔄 **Git & GitHub** | Version control and deployment tracking |
+
+> **Technology Philosophy:**  
+> **Build → Containerize → Secure → Deploy → Ingest → Analyze → Govern**
