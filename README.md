@@ -669,7 +669,17 @@ Deterministic data generation provides a **reproducible development environment*
 * 🐛 Reproduce and debug issues
 * 🚀 Demonstrate the platform consistently
 
-> **Module 1 establishes the centralized data foundation on which the remaining AutoClaims AI modules operate.**
+**Module 1 establishes the centralized data foundation on which the remaining AutoClaims AI modules operate.**
+
+<p align="center">
+  <img 
+    src="images/Module_1.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
+
+
 
 
 
