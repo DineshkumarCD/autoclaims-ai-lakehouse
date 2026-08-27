@@ -790,5 +790,137 @@ The in-memory OCR architecture provides several engineering advantages:
 </p>
 
 
+### 3️⃣ Module 3: Dual-Branch Operations & Workflow Engine
 
+> **Technology:** 🖥️ Streamlit
+> **Role:** 👥 Unified operational and adjudication workflow engine
+
+The **Dual-Branch Operations & Workflow Engine** provides role-specific interfaces for regional sub-branch agents and headquarters claim adjusters within the AutoClaims AI platform.
+
+---
+
+## 🏪 1. Sub-Branch Interface
+
+The **Sub-Branch Interface** serves as the operational workspace for field and branch agents.
+
+Agents can:
+
+* 📝 **Underwrite and issue motor insurance policies**
+* 📄 **Trigger instant RC document scanning**
+* 🧠 **Extract vehicle information through OCR**
+* 🚗 **Register new accident claims**
+* 🔗 **Associate claims with existing policy records**
+
+### 🔄 Sub-Branch Workflow
+
+```text
+👨‍💼 Branch Agent
+       │
+       ▼
+📝 Policy Underwriting
+       │
+       ▼
+📄 RC Document Scan
+       │
+       ▼
+🧠 OCR Extraction
+       │
+       ▼
+🔎 Vehicle Data Validation
+       │
+       ▼
+🚗 Accident Claim Registration
+       │
+       ▼
+☁️ BigQuery
+```
+
+---
+
+## 🏛️ 2. Main HQ Adjudication Portal
+
+The **Main HQ Adjudication Portal** provides a secured administrative workspace for claims adjusters.
+
+Access is controlled through application-level access gates:
+
+```text
+🔐 `admin_hq`
+🔑 `hq2026`
+```
+
+Once authenticated, HQ users can review and process submitted claims.
+
+### ⚖️ Adjudication Capabilities
+
+#### 🔧 Line-Item Loss Estimatics
+
+Adjusters can evaluate individual repair components and apply appropriate depreciation adjustments.
+
+```text
+🛠️ Repair Estimate
+        │
+        ▼
+📋 Line-Item Review
+        │
+        ▼
+📉 Parts Depreciation
+        │
+        ▼
+💰 Adjusted Settlement
+```
+
+#### ✅ Claim Approval / ❌ Rejection
+
+The portal performs transactional mutations against BigQuery to update the claim decision.
+
+```text
+📑 Claim Under Review
+        │
+        ▼
+⚖️ HQ Adjudication
+        │
+   ┌────┴────┐
+   ▼         ▼
+✅ APPROVE  ❌ REJECT
+   │         │
+   └────┬────┘
+        ▼
+☁️ BigQuery
+`claims_ledger`
+```
+
+---
+
+## 🔗 Unified Dual-Role Architecture
+
+Both workflows operate through the same Streamlit application while exposing different capabilities based on the operational role.
+
+```text
+                 🖥️ Streamlit Application
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+              ▼                       ▼
+       🏪 Sub-Branch              🏛️ Main HQ
+       Operations                 Adjudication
+              │                       │
+              ▼                       ▼
+       📄 Policy & Claim        ⚖️ Claim Review
+       🧠 OCR Processing        📉 Depreciation
+       🚗 Claim Registration    ✅ Approve / ❌ Reject
+              │                       │
+              └───────────┬───────────┘
+                          ▼
+                   ☁️ BigQuery
+```
+
+> **Module 3 establishes the operational control layer that connects branch-level claim intake with centralized headquarters adjudication.**
+
+<p align="center">
+  <img 
+    src="images/Module_3.png" 
+    alt="AutoClaims AI Overall Architecture"
+    width="100%"
+  >
+</p>
 
