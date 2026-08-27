@@ -538,9 +538,138 @@ The complete AutoClaims AI workflow can be summarized as:
 ```
 
 > ### 💡 Architecture Principle
->
 > **Capture → Process in Memory → Extract → Ingest → Analyze → Adjudicate**
 >
 > AutoClaims AI brings these stages together into a **serverless, zero-disk, cloud-native insurance data lakehouse ecosystem**.
+
+## 🔬 Module-by-Module Technical Deep Dive
+
+### 1️⃣ Module 1: Data Modeling & Lakehouse Core
+
+> **Technology:** ☁️ Google Cloud BigQuery
+> **Dataset:** `autoclaims_lakehouse`
+
+The **Data Modeling & Lakehouse Core** serves as the centralized data foundation of AutoClaims AI. It separates relatively stable policy information from transactional claim events, enabling reliable claim processing, analytics, and loss-ratio calculations.
+
+---
+
+### 📋 `policies_master` — Policy Entity
+
+The **`policies_master`** table acts as the primary policy entity within the lakehouse.
+
+It stores:
+
+* 🆔 `policy_id`
+* 👤 Customer demographics
+* 🚗 Vehicle parameters
+* 💰 Insured Declared Value (IDV)
+* 💵 Annual gross premium
+* 📅 Policy validity and lifecycle status
+
+---
+
+### 📑 `claims_ledger` — Claims Transaction Entity
+
+The **`claims_ledger`** acts as the central transactional entity for motor insurance claims.
+
+It tracks the complete claim lifecycle:
+
+```text
+📝 Submitted
+      │
+      ▼
+🔍 Under Review
+      │
+      ├───────────────┐
+      ▼               ▼
+  ✅ Approved       ❌ Rejected
+      │
+      ▼
+💰 Settlement
+```
+
+It captures:
+
+* 🆔 `claim_id`
+* 🔗 `policy_id`
+* 📍 Regional branch origin
+* 🏭 Workshop classification
+* 🔧 Itemized repair estimates
+* 💰 Approved settlement amount
+* 📊 Claim status
+
+---
+
+### 🔗 Policy-to-Claim Relationship
+
+The two core entities are connected through `policy_id`:
+
+```text
+policies_master.policy_id
+          │
+          │ 1 : N
+          ▼
+claims_ledger.policy_id
+```
+
+This relationship enables:
+
+* 🔍 Policy-level claim history
+* 📊 Loss-ratio calculations
+* 💰 Premium vs. claim-cost analysis
+* 📍 Branch-level analytics
+* ⚖️ Centralized adjudication
+
+---
+
+### 🌱 Synthetic Seeding Pipeline
+
+A **deterministic Python seeder** was developed to populate the BigQuery lakehouse with a consistent baseline dataset for development, testing, and demonstration.
+
+| Entity      | Initial Records |
+| ----------- | --------------: |
+| 📋 Policies |       **1,000** |
+| 📑 Claims   |         **250** |
+
+The records are distributed across three regional branch codes:
+
+```text
+📍 BR-CHENNAI-01
+📍 BR-COIMBATORE-02
+📍 BR-MADURAI-03
+```
+
+### ⚙️ Seeding Flow
+
+```text
+🐍 Python Seeder
+       │
+       ▼
+🎲 Deterministic Synthetic Data
+       │
+       ├───────────────┐
+       ▼               ▼
+📋 1,000 Policies   📑 250 Claims
+       │               │
+       └───────┬───────┘
+               ▼
+        ☁️ BigQuery
+               │
+               ▼
+    `autoclaims_lakehouse`
+```
+
+### 🎯 Why Deterministic Seeding?
+
+Deterministic data generation provides a **reproducible development environment**, making it easier to:
+
+* 🧪 Perform repeatable testing
+* 🔄 Rebuild the baseline dataset
+* 📊 Validate analytical queries
+* 🐛 Reproduce and debug issues
+* 🚀 Demonstrate the platform consistently
+
+> **Module 1 establishes the centralized data foundation on which the remaining AutoClaims AI modules operate.**
+
 
 
