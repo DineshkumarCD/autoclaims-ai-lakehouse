@@ -233,4 +233,362 @@ Manual Analytics   → 📊 Automated Insights
 
 > **AutoClaims AI converts operational complexity into a scalable, secure, and analytics-ready cloud architecture.**
 
+# 🏗️ End-to-End System Architecture
+
+> The **AutoClaims AI** platform is structured as a **three-tier, cloud-native data lakehouse architecture** designed to process motor insurance claims from regional branch ingestion through centralized enterprise analytics — while minimizing manual processing latency and eliminating persistent local document storage.
+
+---
+
+## 🔄 Architecture Overview
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🏢 1. OPERATIONAL INGESTION TIER                                   │
+│                                                                     │
+│  🏪 Sub-Branch Operations       🏛️ Main HQ Operations               │
+│  • Policy Underwriting          • Claim Adjudication               │
+│  • IDV Calculation              • Repair Estimate Review            │
+│  • Claim Registration           • Depreciation & Salvage Adjustment │
+│  • RC Smart Card OCR            • Settlement Approval / Rejection   │
+│                                                                     │
+│                  🔐 HTTPS / TLS TERMINATION                         │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ ⚙️ 2. COMPUTE & OCR PROCESSING LAYER                               │
+│                                                                     │
+│                    ☁️ Google Cloud Run                              │
+│                  Serverless Docker Container                        │
+│                                                                     │
+│        🖥️ Streamlit              📊 Plotly Analytics                │
+│             │                         │                             │
+│             └──────────┬──────────────┘                             │
+│                        ▼                                            │
+│              🧠 Google Cloud Vision API                             │
+│                        │                                            │
+│                  ⚡ Volatile RAM                                    │
+│                  io.BytesIO                                          │
+│                        │                                            │
+│                  🔤 OCR Extraction                                  │
+└────────────────────────┬────────────────────────────────────────────┘
+                         │
+                  🔐 IAM Authentication
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ ☁️ 3. DATA LAKEHOUSE STORAGE LAYER                                 │
+│                                                                     │
+│                 Google Cloud BigQuery                               │
+│                 `autoclaims_lakehouse`                              │
+│                                                                     │
+│       ┌──────────────────────┐    ┌──────────────────────┐          │
+│       │ 📋 policies_master   │    │ 📑 claims_ledger     │          │
+│       │                      │    │                      │          │
+│       │ • policy_id          │    │ • claim_id           │          │
+│       │ • customer details   │    │ • policy_id (FK)     │          │
+│       │ • vehicle details    │    │ • branch_id          │          │
+│       │ • IDV / premium      │    │ • repair estimates   │          │
+│       │ • policy lifecycle   │    │ • approved settlement│          │
+│       └──────────┬───────────┘    └──────────┬───────────┘          │
+│                  └───────────🔗───────────────┘                      │
+│                         `policy_id`                                  │
+│                                                                     │
+│              📊 Real-Time Loss Ratio Analytics                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+# 1️⃣ Operational Ingestion Tier
+
+### 🏪 Sub-Branch Operations
+
+Field agents handle customer-facing insurance transactions at regional branches.
+
+Key responsibilities include:
+
+* 📝 **Motor Policy Underwriting & Issuance**
+* 💰 **Insured Declared Value (IDV) Calculation**
+* 🚗 **Motor Damage Claim Registration**
+* 📄 **Vehicle RC Smart Card Upload**
+* 🧠 **Zero-Disk OCR Processing Initiation**
+
+The Sub-Branch Desk acts as the primary **operational entry point** for policy and claim information.
+
+### 🏛️ Main HQ Operations
+
+Headquarters claim adjusters operate through a secured adjudication workspace:
+
+```text
+`admin_hq`
+```
+
+The HQ workspace enables adjusters to:
+
+* 🔍 Review itemized workshop repair estimates
+* 📉 Apply depreciation adjustments
+* ♻️ Apply salvage deductions
+* 💰 Review settlement amounts
+* ✅ Approve claim payouts
+* ❌ Reject claims where applicable
+
+### 🔐 Network & Security Boundary
+
+All user interactions and application payloads pass through:
+
+**HTTPS → TLS Termination → Cloud Application**
+
+This provides encrypted communication while protecting sensitive policyholder and claim information **in transit**.
+
+---
+
+# 2️⃣ Compute & OCR Processing Layer
+
+## ☁️ Google Cloud Run
+
+The core application is packaged inside a **multi-stage Docker container** and deployed on **Google Cloud Run**.
+
+Cloud Run provides:
+
+* ⚡ Request-based autoscaling
+* 📈 Automatic capacity management
+* 💤 Scale-to-zero when idle
+* 💰 Reduced idle infrastructure costs
+* 🐳 Containerized application execution
+
+```text
+User Request
+     │
+     ▼
+☁️ Cloud Run
+     │
+     ├── 🖥️ Streamlit Application
+     ├── 📊 Plotly Analytics
+     └── 🧠 OCR Processing
+```
+
+---
+
+## 🖥️ Streamlit Core Engine
+
+The **Streamlit Engine** provides the application interface for branch and headquarters users.
+
+It manages:
+
+* 🧭 Role-based navigation
+* 📝 Policy forms
+* 📄 Claim registration
+* 📤 RC document uploads
+* 👥 Branch/HQ workflows
+* 🔄 Application state
+
+---
+
+## 📊 Plotly Analytics Mart
+
+The integrated **Plotly Analytics Mart** provides real-time portfolio visualizations.
+
+Example analytical metric:
+
+> **📈 Incurred Loss Ratio**
+
+These visualizations allow HQ users to monitor portfolio-level claim exposure and loss performance.
+
+---
+
+## 🧠 Zero-Disk OCR Pipeline
+
+One of the key engineering features of AutoClaims AI is its **zero-disk document-processing architecture**.
+
+RC smart-card documents are processed directly from **volatile memory** using:
+
+```python
+io.BytesIO
+```
+
+The document lifecycle is:
+
+```text
+📄 RC Smart Card
+       │
+       ▼
+⚡ RAM Buffer
+       │
+       ▼
+🧠 Google Cloud Vision API
+       │
+       ▼
+🔤 Raw OCR Text
+       │
+       ▼
+🔎 Regex Parsing
+       │
+       ├── 🚗 Registration Number
+       ├── ⚙️ Engine Number
+       ├── 🔩 Chassis Number
+       └── 🚙 Vehicle Class
+```
+
+### 🛡️ Zero-Disk Principle
+
+The uploaded RC document is **not intentionally persisted to local disk** during the OCR workflow.
+
+Instead:
+
+```text
+Upload → RAM → Vision API → OCR Text → Structured Data
+```
+
+This minimizes persistent exposure of sensitive vehicle and identity documentation.
+
+---
+
+# 3️⃣ Data Lakehouse Storage Layer
+
+## ☁️ Google Cloud BigQuery
+
+The centralized analytical core is built on **Google Cloud BigQuery**.
+
+The project uses the:
+
+```text
+autoclaims_lakehouse
+```
+
+dataset as the centralized storage and analytical foundation.
+
+---
+
+## 🔐 IAM-Authenticated Data Access
+
+The compute layer communicates with BigQuery through **IAM-authenticated service accounts**.
+
+```text
+☁️ Cloud Run
+      │
+      │ 🔐 IAM Authentication
+      ▼
+☁️ BigQuery
+      │
+      ├── SQL DDL
+      └── SQL DML
+```
+
+This architecture avoids embedding traditional database passwords or hardcoded credentials inside the application.
+
+---
+
+## 📋 `policies_master` Entity
+
+`policies_master` functions as the primary **policy dimension table**.
+
+It tracks:
+
+| Attribute             | Purpose                                   |
+| --------------------- | ----------------------------------------- |
+| `policy_id`           | Unique policy identifier                  |
+| Customer details      | Policyholder information                  |
+| Vehicle parameters    | Vehicle identification and classification |
+| IDV valuation         | Insured Declared Value                    |
+| Gross Written Premium | Premium information                       |
+| Policy lifecycle      | Policy status and timestamps              |
+
+---
+
+## 📑 `claims_ledger` Entity
+
+`claims_ledger` functions as the central **transactional claim fact table**.
+
+It captures:
+
+| Attribute               | Purpose                          |
+| ----------------------- | -------------------------------- |
+| `claim_id`              | Unique claim identifier          |
+| `policy_id`             | Associated policy reference      |
+| `branch_id`             | Regional claim origin            |
+| Workshop classification | Cashless Network / Reimbursement |
+| Repair estimate         | Estimated repair cost            |
+| Approved settlement     | Final approved payout            |
+
+---
+
+## 🔗 Relational Lakehouse Synchronization
+
+The two core entities are logically connected through:
+
+```text
+policies_master
+       │
+       │ policy_id
+       │
+       ▼
+claims_ledger
+```
+
+This relationship enables centralized:
+
+* 🔍 **Claim history lookups**
+* 📊 **Loss ratio aggregation**
+* 💰 **Settlement analysis**
+* 📈 **Portfolio analytics**
+* ⚖️ **Adjudication workflows**
+
+---
+
+# 🚀 End-to-End Data Journey
+
+The complete AutoClaims AI workflow can be summarized as:
+
+```text
+📄 Customer / Vehicle Document
+              │
+              ▼
+🏪 Sub-Branch Desk
+              │
+              ▼
+🔐 HTTPS / TLS
+              │
+              ▼
+☁️ Google Cloud Run
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+🖥️ Streamlit     📊 Plotly
+       │
+       ▼
+⚡ RAM / io.BytesIO
+       │
+       ▼
+🧠 Google Cloud Vision
+       │
+       ▼
+🔎 Regex Extraction
+       │
+       ▼
+🔐 IAM Authentication
+       │
+       ▼
+☁️ Google BigQuery
+       │
+       ├── 📋 policies_master
+       │
+       └── 📑 claims_ledger
+              │
+              ▼
+📈 Loss Ratio Analytics
+              │
+              ▼
+🏛️ Main HQ Adjudication
+              │
+              ▼
+✅ Approve / ❌ Reject
+```
+
+> ### 💡 Architecture Principle
+>
+> **Capture → Process in Memory → Extract → Ingest → Analyze → Adjudicate**
+>
+> AutoClaims AI brings these stages together into a **serverless, zero-disk, cloud-native insurance data lakehouse ecosystem**.
+
 
