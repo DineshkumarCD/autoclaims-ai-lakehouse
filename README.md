@@ -81,7 +81,7 @@ AutoClaims AI establishes a **single, automated data foundation** for motor insu
 ## 🏗️ Overall Architecture
 
 <p align="center">
-  <img src="images/final.png" alt="AutoClaims AI Overall Architecture" width="100%">
+  <img src="images/to explain.png" alt="AutoClaims AI Overall Architecture" width="100%">
 </p>
 
 
